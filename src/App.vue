@@ -1,17 +1,16 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <Header />
+  <DivisionRunner />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue'
+import DivisionRunner from './components/DivisionRunner.vue'
 
 export default defineComponent({
   name: 'App',
-  components: {
-    HelloWorld
-  }
+  components: { Header, DivisionRunner }
 })
 </script>
 
