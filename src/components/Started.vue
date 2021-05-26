@@ -25,10 +25,12 @@ export interface FinishPayload {
 export default defineComponent({
   name: 'Started',
   props: {
-    operation: { type: Object as PropType<Ref<Division>>, required: true }
+    operation: { type: Object as PropType<Division>, required: true }
   },
   emits: ['finished'],
   setup: (props, { emit }) => {
+    const start = Date.now()
+
     const result = ref('')
     const elapsed = ref(0)
 
@@ -37,13 +39,12 @@ export default defineComponent({
     }, 1000)
 
     const checkResult = () => {
-      console.log('ope =', props.operation.value)
-      const success: boolean = Number(result.value) === props.operation.value.result
+      const success: boolean = Number(result.value) === props.operation.result
       emit('finished', {
-        operation: props.operation,
+        operation: { ...props.operation },
         answer: Number(result.value),
         success,
-        score: elapsed.value + (success ? 0 : 60)
+        score: Math.round((Date.now() - start) / 1000) + (success ? 0 : 60)
       })
     }
 
