@@ -20,6 +20,7 @@ export interface FinishPayload {
   answer: number
   success: boolean
   score: number
+  timestamp: number
 }
 
 export default defineComponent({
@@ -40,11 +41,13 @@ export default defineComponent({
 
     const checkResult = () => {
       const success: boolean = Number(result.value) === props.operation.result
+      const timestamp = Date.now()
       emit('finished', {
         operation: { ...props.operation },
         answer: Number(result.value),
         success,
-        score: Math.round((Date.now() - start) / 1000) + (success ? 0 : 60)
+        score: Math.round((Date.now() - start) / 1000) + (success ? 0 : 60),
+        timestamp
       })
     }
 
