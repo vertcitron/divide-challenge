@@ -6,13 +6,13 @@
       {{ elapsed }} s.
     </div>
     <div class="running-result">
-      <input type="text" v-model="result" placeholder="Entre un résultat ici pour arrêter le compteur..." @change="checkResult"/>
+      <input ref="answer" type="text" v-model="result" placeholder="Entre un résultat ici pour arrêter le compteur..." @change="checkResult"/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, onUnmounted, PropType } from 'vue'
+import { defineComponent, ref, Ref, onUnmounted, PropType, onMounted } from 'vue'
 import { Division } from '@/utils/generateDivision'
 
 export interface FinishPayload {
@@ -31,6 +31,7 @@ export default defineComponent({
   emits: ['finished'],
   setup: (props, { emit }) => {
     const start = Date.now()
+    const answer: Ref<HTMLInputElement | null> = ref(null)
 
     const result = ref('')
     const elapsed = ref(0)
@@ -51,12 +52,18 @@ export default defineComponent({
       })
     }
 
+    onMounted(() => {
+      // eslint-disable-next-line no-unused-expressions
+      answer.value?.focus()
+    })
+
     onUnmounted(() => {
       clearInterval(timer)
     })
 
-    return { elapsed, result, checkResult }
+    return { elapsed, result, checkResult, answer }
   }
+
 })
 </script>
 

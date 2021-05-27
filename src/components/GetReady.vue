@@ -1,19 +1,26 @@
 <template>
   <div class="getready">
     <div>Clique pour démarrer la prochaine opération</div>
-    <button @click="goClick">GO</button>
+    <button ref="goButton" @click="goClick">GO</button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, ref, Ref } from 'vue'
 
 export default defineComponent({
   name: 'GetReady',
   emits: ['goClick'],
   setup: (props, { emit }) => {
     const goClick = () => emit('goClick')
-    return { goClick }
+    const goButton: Ref<HTMLInputElement | null> = ref(null)
+
+    onMounted(() => {
+      // eslint-disable-next-line no-unused-expressions
+      goButton.value?.focus()
+    })
+
+    return { goClick, goButton }
   }
 })
 </script>
